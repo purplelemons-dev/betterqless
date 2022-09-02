@@ -98,7 +98,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         self.send_header('Location', url)
         self.end_headers()
 
-    def _200(self, filename: str=None, content: str=None, public: bool=True):
+    def _200(self, filename: str=None, content: str=None):
         """
         Send a 200 response with the content of the file or otherwise specified content.
         
@@ -108,10 +108,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             raise ValueError('filename or content must be provided')
         elif filename is not None:
             try:
-                if public:
-                    with open(fdir(filename, extra="public\\"), 'r') as f: content = f.read()
-                else:
-                    with open(fdir(filename, extra="static\\"), 'r') as f: content = f.read()
+                with open(fdir(filename, extra="public\\"), 'r') as f:
+                    content = f.read()
             except FileNotFoundError:
                 self._404(f"File not found: {filename}")
                 return
@@ -120,6 +118,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                     content_type = "text/javascript"
                 elif filename.endswith(".css"):
                     content_type = "text/css"
+                elif filename.endswith(".png"):
+                    content_type = "image/png"
 
         self.send_response(200)
         self.send_header('Content-type', content_type)
@@ -132,8 +132,10 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             return
 
         elif self.path=="/favicon.ico":
-            self._200("favico.png", public=False)
+            print("favicon.ico")
+            self._200(filename="static\\favico.png")
             return
+
         elif self.path=="/login":
             self._200(filename="login.html")
             return
