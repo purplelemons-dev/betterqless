@@ -1,34 +1,14 @@
 [
     {
         "name": "admin",
-        "permission": {
-            "add": true,
-            "edit": true,
-            "delete": true,
-            "new_user": true,
-            "new_department": true,
-            "edit_user": true,
-            "edit_department": true,
-            "remove_user": true,
-            "remove_department": true
-        },
-        "department": "admin",
-        "email": "admin@localhost"
+        "deptartment": "admin",
+        "email": "admin@example.com",
+        "tokens": []
     },
     {
         "name": "student_worker",
-        "permission": {
-            "add": true,
-            "edit": true,
-            "delete": true,
-            "new_user": false,
-            "new_department": false,
-            "edit_user": false,
-            "edit_department": false,
-            "remove_user": false,
-            "remove_department": false
-        },
-        "department": "none",
-        "email": "student_worker@localhost"
+        "deptartment": "student_worker",
+        "email": "student@example.com",
+        "tokens": []
     }
 ]

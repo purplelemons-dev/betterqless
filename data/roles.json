@@ -1,0 +1,34 @@
+[
+    {
+        "name": "admin",
+        "permission": {
+            "add": true,
+            "edit": true,
+            "delete": true,
+
+            "new_user": true,
+            "edit_user": true,
+            "remove_user": true,
+
+            "new_department": true,
+            "edit_department": true,
+            "remove_department": true
+        }
+    },
+    {
+        "name": "student_worker",
+        "permission": {
+            "add": true,
+            "edit": true,
+            "delete": true,
+
+            "new_user": false,
+            "edit_user": false,
+            "remove_user": false,
+
+            "new_department": false,
+            "edit_department": false,
+            "remove_department": false
+        }
+    }
+]
