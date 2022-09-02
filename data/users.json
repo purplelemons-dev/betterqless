@@ -2,13 +2,11 @@
     {
         "name": "admin",
         "deptartment": "admin",
-        "email": "admin@example.com",
-        "tokens": []
+        "email": "admin@example.com"
     },
     {
         "name": "student_worker",
         "deptartment": "student_worker",
-        "email": "student@example.com",
-        "tokens": []
+        "email": "student@example.com"
     }
 ]
