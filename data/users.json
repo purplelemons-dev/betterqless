@@ -1,12 +1,17 @@
 [
     {
         "name": "admin",
-        "deptartment": "admin",
+        "department": "admin",
         "email": "admin@example.com"
     },
     {
         "name": "student_worker",
-        "deptartment": "student_worker",
+        "department": "student_worker",
         "email": "student@example.com"
+    },
+    {
+        "name":"jsmith371",
+        "department": "student_worker",
+        "email": "jsmith371@example.com"
     }
 ]

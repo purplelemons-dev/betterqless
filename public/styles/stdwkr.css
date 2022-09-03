@@ -1,0 +1,44 @@
+.topright {
+    position: absolute;
+    top: 8px;
+    right: 16px;
+    font-size: 18px;
+}
+.center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.monitor {
+    position: relative;
+    display: inline-block;
+    width: 200px;
+    height: 200px;
+    background-color: #4CAF50;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 200px;
+    font-size: 24px;
+    margin: 0 20px;
+}
+.monitor a {
+    color: white;
+    text-decoration: none;
+}
+.checkin {
+    position: relative;
+    display: inline-block;
+    width: 200px;
+    height: 200px;
+    background-color: #4CAF50;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 200px;
+    font-size: 24px;
+    margin: 0 20px;
+}
+.checkin a {
+    color: white;
+    text-decoration: none;
+}
