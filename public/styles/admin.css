@@ -1,0 +1,60 @@
+.topright {
+    position: absolute;
+    top: 8px;
+    right: 16px;
+    font-size: 18px;
+}
+.center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.monitor {
+    position: relative;
+    display: inline-block;
+    width: 200px;
+    height: 200px;
+    background-color: #4b7bd4;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 200px;
+    font-size: 24px;
+    margin: 0 20px;
+}
+.monitor a {
+    color: white;
+    text-decoration: none;
+}
+.queue {
+    position: relative;
+    display: inline-block;
+    width: 200px;
+    height: 200px;
+    background-color: #4CAF50;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 200px;
+    font-size: 24px;
+    margin: 0 20px;
+}
+.queue a {
+    color: white;
+    text-decoration: none;
+}
+.admin {
+    position: relative;
+    display: inline-block;
+    width: 200px;
+    height: 200px;
+    background-color: #f44336;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 200px;
+    font-size: 24px;
+    margin: 0 20px;
+}
+.admin a {
+    color: white;
+    text-decoration: none;
+}
