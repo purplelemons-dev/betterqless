@@ -75,6 +75,15 @@ class userSystem:
             return -1
         return -2
 
+    def getUserRole(self,username:str)->str:
+        """
+        Returns the role of the user.
+        """
+        for user in self.users:
+            if user["name"] == username:
+                return user["department"]
+        return None
+
 class Handler(http.server.SimpleHTTPRequestHandler):
 
     def read_post(self):
@@ -95,6 +104,12 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         self.send_response(404)
         self.end_headers()
         self.wfile.write(f"404 Not Found{message}".encode())
+
+    def _500(self, message: str=""):
+        if message and message[0]!="\n": message = "\n"+message
+        self.send_response(500)
+        self.end_headers()
+        self.wfile.write(f"500 Internal Server Error{message}".encode())
 
     def redirect(self, url: str):
         self.send_response(301)
@@ -125,13 +140,29 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                     content_type = "image/png"
 
         for key, value in replace.items():
-            content = content.replace("{{"+key+"}}", value)
+            print(key, value)
+            content = content.replace("{{"+key+"}}", str(value))
 
         self.send_response(200)
         self.send_header('Content-type', content_type)
         for key, value in custom_headers.items(): self.send_header(key, value)
         self.end_headers()
         self.wfile.write(content.encode())
+
+    def userInfo(self)->tuple[str,dict[str,str]]:
+        """
+        Gets the user info from the request cookie.
+        """
+        try:
+            cookie = self.headers.get("Cookie")
+            token = parseCookie(cookie)["token"]
+        except KeyError: return None, None
+        username = usersys.tokens[token]
+
+        for user in usersys.users:
+            if user["name"] == username:
+                return token, user
+        return None, None
 
     def do_GET(self):
         if self.path=="/":
@@ -144,24 +175,23 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                 # Delete the token cookie
                 self._200(filename="login.html", custom_headers={"Set-Cookie": "token=;SameSite=Strict;Expires=Thu, 01 Jan 1970 00:00:00 GMT;"})
                 return
+            token, user = self.userInfo()
+            if token is not None:
+                self.redirect("/dashboard")
+                return
             self._200(filename="login.html")
             return
 
         elif self.path=="/dashboard":
             # validate token via request cookie
-            cookie = self.headers.get("Cookie")
-            token = parseCookie(cookie)["token"]
-
-            if token not in usersys.tokens:
+            token, user = self.userInfo()
+            if token is None and user is None:
                 self.redirect("/login")
                 return
-            username = usersys.tokens[token]
-            for user in usersys.users:
-                if user["name"]==username:
-                    role = user["department"]
-                    break
-            else:
-                self._404("User not found")
+            username = user["name"]
+            role=usersys.getUserRole(username)
+            if role is None:
+                self._500(f"Problem getting {username}'s department")
                 return
 
             if role=="admin":
@@ -171,8 +201,24 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                 self._200(filename="workerdash.html", username=username)
                 return
 
+        elif self.path=="/admin":
+            token, user = self.userInfo()
+            if token not in usersys.tokens:
+                self.redirect("/login")
+                return
+
+            role = user["department"]
+
+            if role=="admin":
+                self._200(filename="adminpanel.html", username=user["name"], users=usersys.users)
+                return
+            else:
+                self._401()
+                return
+
         # If all other paths are not found, return something in the public directory
-        self._200(filename=self.path[1:])
+        try: self._200(filename=self.path[1:])
+        except: self._404()
 
     def do_POST(self):
         if self.path=="/login":

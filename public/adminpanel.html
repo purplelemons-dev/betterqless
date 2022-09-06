@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/default.css">
+    <link rel="stylesheet" href="styles/adminpanel.css">
+    <title>Admin Control Panel</title>
+</head>
+<body>
+    <!--
+        From the admin control panel, admins can
+        add, delete, or edit users. They can also
+        add, delete, or edit department permissions.
+    -->
+    <div class="topright">
+        <p id="username">Logged in as {{username}}</p>
+        <a href="">Home</a>
+        <a href="/login?logout=true">Log out</a>
+    </div>
+
+    <!--
+        List every user with a red trash bin to delete
+        them, a blue pencil to edit them, and a green
+        plus at the bottom to add a new user.
+    -->
+    <div class="users">
+        <h1>Users</h1>
+        <table id="users">
+            <tr>
+                <th>Username</th>
+                <th>Department</th>
+                <th>Actions</th>
+            </tr>
+        </table>
+        <a href="/adminpanel?adduser=true"><img src="images/plus.png" alt="Add User"></a>
+    </div>
+    <script>
+        const users = {{users}};
+        users.forEach(i => {
+            if (i.name=="admin") return;
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td>${i.name}</td>
+                <td>${i.department}</td>
+                <td>
+                    <a href="/adminpanel?edituser=${i.name}"><img src="images/pencil.png" alt="Edit User"></a>
+                    <a href="/adminpanel?deleteuser=${i.name}"><img src="images/trash.png" alt="Delete User"></a>
+                </td>
+            `;
+            document.getElementById("users").appendChild(row);
+        });
+    </script>
+</body>
+</html>
