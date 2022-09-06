@@ -103,7 +103,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             if self.path=="/api/roles":
                 self._200(content=json.dumps(usersys.roles))
             elif self.path=="/api/users":
-                self._200(content=json.dumps(usersys.users))
+                self._200(content=json.dumps(user for user in usersys.users if user["department"]!="admin"))
             else:
                 self._404()
             return
@@ -157,7 +157,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 
         # If all other paths are not found, return something in the public directory
         try: self._200(filename=self.path[1:])
-        except ValueError: self._404()
+        except ValueError: self._500(message="What the hell did you do to the URL?")
         except: self._500()
 
     def do_POST(self):
