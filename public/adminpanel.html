@@ -37,19 +37,24 @@
         <a href="/adminpanel?adduser=true"><img src="images/plus.png" alt="Add User"></a>
     </div>
     <script>
-        const users = {{users}};
-        users.forEach(i => {
-            if (i.name=="admin") return;
-            const row = document.createElement("tr");
-            row.innerHTML = `
-                <td>${i.name}</td>
-                <td>${i.department}</td>
-                <td>
-                    <a href="/adminpanel?edituser=${i.name}"><img src="images/pencil.png" alt="Edit User"></a>
-                    <a href="/adminpanel?deleteuser=${i.name}"><img src="images/trash.png" alt="Delete User"></a>
-                </td>
-            `;
-            document.getElementById("users").appendChild(row);
+        const users = fetch("/api/users", {
+            credentials: "include"
+        })
+        .then(response => response.json())
+        .then(data => {
+            const table = document.getElementById("users");
+            for (let user of data) {
+                const row = table.insertRow();
+                const username = row.insertCell(0);
+                const department = row.insertCell(1);
+                const actions = row.insertCell(2);
+                username.innerText = user.name;
+                department.innerText = user.department;
+                actions.innerHTML = `
+                    <a href="/adminpanel?edituser=${user.name}"><img src="images/pencil.png" alt="Edit User"></a>
+                    <a href="/adminpanel?deleteuser=${user.department}"><img src="images/trash.png" alt="Delete User"></a>
+                `;
+            }
         });
     </script>
 </body>

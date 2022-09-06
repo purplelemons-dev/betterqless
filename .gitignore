@@ -1,3 +1,4 @@
 data/passwords.json
 test/**
 data/tokens.json
+__pycache__/**
