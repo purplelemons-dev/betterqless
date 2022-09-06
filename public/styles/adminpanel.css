@@ -1,0 +1,18 @@
+.users {
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-top: 5%;
+}
+#users {
+    width: 100%;
+}
+#users td {
+    text-align: center;
+}
+#users img {
+    width: 20px;
+    height: 20px;
+}
+#users img:hover {
+    cursor: pointer;
+}
