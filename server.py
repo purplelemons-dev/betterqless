@@ -103,7 +103,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             if self.path=="/api/roles":
                 self._200(content=json.dumps(usersys.roles))
             elif self.path=="/api/users":
-                self._200(content=json.dumps(user for user in usersys.users if user["department"]!="admin"))
+                self._200(content=json.dumps([user for user in usersys.users if user["department"]!="admin"]))
             else:
                 self._404()
             return
