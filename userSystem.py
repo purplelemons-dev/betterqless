@@ -32,6 +32,27 @@ class userSystem:
         with open(fdir("passwords.json","data\\"), 'r') as f:
             self.passwords:dict[str,str] = json.load(f)
 
+    def editUser(self, username:str, newUsername:str=None, department:str=None):
+        """
+        Edits the user's username, department, and/or role.
+        """
+        if newUsername is department is None: raise ValueError("No changes were made.")
+        for user in self.users:
+            if user["name"] == username:
+                if newUsername is not None: user["name"] = newUsername
+                if department is not None: user["role"] = department
+                break
+        else: raise ValueError("User does not exist.")
+        self.writeUsers()
+
+    def addUser(self, username:str, department:str, role:str):
+        """
+        Adds a user to the system.
+        """
+        if username in self.passwords: raise ValueError("User already exists.")
+        self.users.append({"name":username,"role":department})
+        self.writeUsers()
+
     def writeUsers(self):
         with open(fdir("users.json","data\\"), 'w') as f:
             json.dump(self.users, f, indent=4)

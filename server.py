@@ -177,6 +177,16 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             self._200(content="", custom_headers={"Set-Cookie": f"token={token};SameSite=Strict;"})
             return
 
+        elif self.path.startswith("/api/") and self.isAdmin():
+            if self.path=="/api/user/delete":
+                if self.headers["Content-Type"]!="application/json":
+                    self._404("Content-Type must be application/json")
+                    return
+                data:dict = json.loads(self.read_post())
+                usersys.deleteUser(data["username"])
+                self._200()
+                return
+
         self._404()
 
 if __name__ == '__main__':

@@ -11,9 +11,15 @@ const users = fetch("/api/users", {
         const actions = row.insertCell(2);
         username.innerText = user.name;
         department.innerText = user.department;
-        actions.innerHTML = `
-            <a href="/adminpanel?edituser=${user.name}"><img src="images/pencil.png" alt="Edit User"></a>
-            <a href="/adminpanel?deleteuser=${user.department}"><img src="images/trash.png" alt="Delete User"></a>
-        `;
+        actions.innerHTML = `<a id="edit${user.name}"><img src="images/pencil.png" alt="Edit User"></a>
+                             <a id="delete${user.name}"><img src="images/trash.png" alt="Delete User"></a>`;
+        document.getElementById(`edit${user.name}`).addEventListener("click", () => {
+            // Edit user
+        });
+        document.getElementById(`delete${user.name}`).addEventListener("click", () => {
+            // Delete user
+        });
     }
 });
+
+
